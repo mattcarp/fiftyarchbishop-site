@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>50 Archbishop Street · Valletta</title>
-    <meta name="description" content="No. 50 Archbishop Street — a Valletta townhouse set up for gatherings, exhibitions, and small editions. Fifty paces from St John's Co-Cathedral." />
+    <meta name="description" content="No. 50 Archbishop Street — a Valletta townhouse available for long-term lets. Fifty paces from St John's Co-Cathedral." />
     <meta property="og:title" content="No. 50 Archbishop Street · Valletta" />
-    <meta property="og:description" content="A Valletta townhouse set up for gatherings, exhibitions, and small editions." />
+    <meta property="og:description" content="A Valletta townhouse available for long-term lets." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://50archbishop.com" />
     <meta property="og:image" content="https://50archbishop.com/assets/og-image.jpg" />
@@ -603,6 +603,178 @@
         .sheet { animation: none; }
         .stamp { transition: none; }
       }
+
+      /* ---------- Lightbox ---------- */
+      .plate img, .hero-photo img { cursor: zoom-in; }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 16, 12, 0.94);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(20px, 4vw, 60px);
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease;
+        cursor: zoom-out;
+      }
+      .lightbox.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .lightbox::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.25 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        opacity: 0.4;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+      .lightbox-frame {
+        position: relative;
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        animation: lb-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @keyframes lb-in {
+        from { opacity: 0; transform: scale(0.96); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+      .lightbox img {
+        display: block;
+        max-width: 100%;
+        max-height: calc(100vh - 160px);
+        width: auto;
+        height: auto;
+        border: 1px solid var(--paper-lo);
+        background: var(--ink);
+        box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      }
+      .lightbox-cap {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--paper);
+        opacity: 0.75;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 18px; right: 18px;
+        width: 40px; height: 40px;
+        background: transparent;
+        border: 1px solid var(--paper-lo);
+        color: var(--paper);
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: background-color 0.2s ease;
+      }
+      .lightbox-close:hover { background: rgba(234,226,209,0.15); }
+      .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 48px; height: 48px;
+        background: transparent;
+        border: 1px solid var(--paper-lo);
+        color: var(--paper);
+        font-family: "DM Serif Display", serif;
+        font-size: 24px;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: background-color 0.2s ease;
+      }
+      .lightbox-nav:hover { background: rgba(234,226,209,0.15); }
+      .lightbox-prev { left: clamp(12px, 3vw, 40px); }
+      .lightbox-next { right: clamp(12px, 3vw, 40px); }
+
+      @media (max-width: 640px) {
+        .lightbox-nav { display: none; }
+      }
+
+      /* ---------- Contact form ---------- */
+      .contact-form-section {
+        padding: clamp(40px, 5vw, 64px) 0;
+        border-bottom: 1px solid var(--rule);
+      }
+      .contact-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 680px;
+      }
+      .contact-form label {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        margin-bottom: 8px;
+      }
+      .contact-form .field { display: flex; flex-direction: column; }
+      .contact-form .field--full { grid-column: 1 / -1; }
+      .contact-form input,
+      .contact-form textarea {
+        font-family: "Libre Caslon Text", Georgia, serif;
+        font-size: 1rem;
+        color: var(--ink);
+        background: rgba(255, 250, 240, 0.4);
+        border: 1px solid var(--rule);
+        padding: 12px 14px;
+        border-radius: 0;
+        resize: vertical;
+        transition: border-color 0.2s ease, background-color 0.2s ease;
+      }
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        outline: none;
+        border-color: var(--ink);
+        background: var(--paper-hi);
+      }
+      .contact-form textarea { min-height: 140px; }
+      .contact-form button {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--paper-hi);
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 16px 28px;
+        cursor: pointer;
+        transition: background-color 0.25s ease, color 0.25s ease;
+        justify-self: start;
+      }
+      .contact-form button:hover {
+        background: var(--oxblood);
+        border-color: var(--oxblood);
+      }
+      .form-status {
+        grid-column: 1 / -1;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        min-height: 1.2em;
+      }
+      .form-status.is-success { color: var(--oxblood); }
+      .form-status.is-error { color: var(--oxblood); font-weight: 500; }
+
+      @media (max-width: 640px) {
+        .contact-form { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
@@ -648,9 +820,9 @@
             <span>Plate I · The Lounge</span>
             <span>MMXXVI</span>
           </figcaption>
-          <div class="stamp" aria-label="Open now">
-            <strong>Open</strong>
-            Anno 2026
+          <div class="stamp" aria-label="Available for long-term let">
+            <strong>To Let</strong>
+            Long Term
           </div>
         </figure>
       </section>
@@ -658,12 +830,12 @@
       <section class="colophon">
         <div class="prose">
           <p>
-            A narrow townhouse on the upper reach of Archbishop Street, fifty paces from St John’s Co-Cathedral. Two floors of restored Valletta interior — honey-coloured limestone, black timber shutters, terrazzo and marble floors — arranged as a small space for gatherings, exhibitions, and printed matter.
+            A narrow townhouse on the upper reach of Archbishop Street, fifty paces from St John’s Co-Cathedral. Two floors of restored Valletta interior — honey-coloured limestone, black timber shutters, terrazzo and marble floors — available for long-term let.
           </p>
           <p>
-            The rooms are furnished and hung: a pair of lounges on the lower floor, a kitchen, a sitting room behind tall doors, original art on most walls. It is a working house — lived in, not staged — and a quiet one, by the measure of Valletta streets.
+            The rooms are furnished and hung: a pair of lounges on the lower floor, a kitchen, a sitting room behind tall doors, a bedroom with Venetian chandelier, a fitted bathroom, original art on most walls. It is a working house — lived in, not staged — and a quiet one, by the measure of Valletta streets.
           </p>
-          <p class="sig">— The House, April 2026.</p>
+          <p class="sig">— The Owner, April 2026.</p>
         </div>
 
         <aside class="card" aria-labelledby="card-title">
@@ -675,7 +847,7 @@
             <dt>Floors</dt><dd><em>Nos. 0 &amp; 1</em></dd>
             <dt>Nearest</dt><dd>St John’s Co-Cathedral</dd>
             <dt>Fabric</dt><dd>Limestone, terrazzo, timber</dd>
-            <dt>Status</dt><dd><em>In use</em></dd>
+            <dt>Status</dt><dd><em>Available, long-term let</em></dd>
           </dl>
         </aside>
       </section>
@@ -746,26 +918,26 @@
       <section class="programme-wrap" aria-labelledby="prog-title">
         <header class="section-head">
           <h2 id="prog-title" class="section-title">
-            <span class="st-num">I.</span> The Programme
+            <span class="st-num">I.</span> The Particulars
           </h2>
-          <p class="section-sub">Three modes of use, modest in scale.</p>
+          <p class="section-sub">What the house offers, and on what terms.</p>
         </header>
 
         <div class="programme">
           <article class="prog-item">
             <p class="prog-roman">i.</p>
-            <h3 class="prog-head">Gatherings</h3>
-            <p class="prog-body">Small, seasonal evenings held at the house. By invitation and occasional open door.</p>
+            <h3 class="prog-head">The Accommodation</h3>
+            <p class="prog-body">Two floors, fully furnished. Double bedroom with Venetian glass chandelier, sitting room, lounge and kitchen, fitted bathroom. Original art hung throughout.</p>
           </article>
           <article class="prog-item">
             <p class="prog-roman">ii.</p>
-            <h3 class="prog-head">Exhibitions</h3>
-            <p class="prog-body">Short runs of painting, photography, and paper. Hung in the front rooms, lit slowly.</p>
+            <h3 class="prog-head">The Terms</h3>
+            <p class="prog-body">Offered as a long-term let only. Unfurnished or furnished by arrangement. References required. No short stays, no holiday bookings.</p>
           </article>
           <article class="prog-item">
             <p class="prog-roman">iii.</p>
-            <h3 class="prog-head">Editions</h3>
-            <p class="prog-body">Printed matter made in small numbers — pamphlets, broadsides, and occasional books.</p>
+            <h3 class="prog-head">The Setting</h3>
+            <p class="prog-body">The upper reach of Archbishop Street — quiet by Valletta measure, fifty paces from St John’s Co-Cathedral, and a short walk to everything the Belt has to offer.</p>
           </article>
         </div>
       </section>
@@ -829,12 +1001,40 @@
         </div>
       </section>
 
-      <section class="correspondence">
-        <p class="cta-text">For word when the house opens its doors, kindly write.</p>
-        <a class="quill" href="mailto:post@50archbishop.com?subject=Fifty%20Archbishop%20%E2%80%94%20kindly%20keep%20me%20informed">
+      <section class="correspondence" id="enquire">
+        <p class="cta-text">For terms, viewings, and all enquiries about the let, kindly write.</p>
+        <a class="quill" href="#contact-form">
           <span>Post a letter</span>
           <span class="arrow">→</span>
         </a>
+      </section>
+
+      <section class="contact-form-section" id="contact-form" aria-labelledby="contact-form-title">
+        <header class="section-head">
+          <h2 id="contact-form-title" class="section-title">
+            <span class="st-num">III.</span> Correspondence
+          </h2>
+          <p class="section-sub">All enquiries — terms, viewings, availability.</p>
+        </header>
+
+        <form class="contact-form" id="enquiry-form" method="POST" action="" novalidate>
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="cf-email">Your email</label>
+            <input id="cf-email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field field--full">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" required></textarea>
+          </div>
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="_subject" value="Enquiry via 50archbishop.com" />
+          <button type="submit">Post the letter →</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
       </section>
 
       <footer class="imprint">
@@ -844,5 +1044,114 @@
       </footer>
 
     </div>
+
+    <!-- Lightbox overlay -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photograph, enlarged" aria-hidden="true">
+      <div class="lightbox-frame">
+        <img id="lightbox-img" src="" alt="" />
+        <div class="lightbox-cap" id="lightbox-cap"></div>
+      </div>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photograph">‹</button>
+      <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photograph">›</button>
+    </div>
+
+    <script>
+      (function() {
+        // --- Lightbox ---
+        var photos = Array.prototype.slice.call(
+          document.querySelectorAll('.hero-photo img, .plate img')
+        );
+        var lb = document.getElementById('lightbox');
+        var lbImg = document.getElementById('lightbox-img');
+        var lbCap = document.getElementById('lightbox-cap');
+        var lbClose = document.getElementById('lightbox-close');
+        var lbPrev = document.getElementById('lightbox-prev');
+        var lbNext = document.getElementById('lightbox-next');
+        var idx = 0;
+
+        function captionFor(img) {
+          var fig = img.closest('figure');
+          if (!fig) return '';
+          var cap = fig.querySelector('figcaption');
+          if (!cap) return '';
+          return cap.textContent.trim().replace(/\s+/g, ' · ');
+        }
+
+        function openAt(i) {
+          idx = (i + photos.length) % photos.length;
+          var img = photos[idx];
+          lbImg.src = img.currentSrc || img.src;
+          lbImg.alt = img.alt || '';
+          lbCap.textContent = captionFor(img);
+          lb.classList.add('is-open');
+          lb.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+        function close() {
+          lb.classList.remove('is-open');
+          lb.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        photos.forEach(function(img, i) {
+          img.addEventListener('click', function() { openAt(i); });
+        });
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function(e) { e.stopPropagation(); openAt(idx - 1); });
+        lbNext.addEventListener('click', function(e) { e.stopPropagation(); openAt(idx + 1); });
+        lb.addEventListener('click', function(e) {
+          if (e.target === lb) close();
+        });
+        document.addEventListener('keydown', function(e) {
+          if (!lb.classList.contains('is-open')) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowLeft') openAt(idx - 1);
+          else if (e.key === 'ArrowRight') openAt(idx + 1);
+        });
+
+        // --- Contact form (progressive enhancement) ---
+        var form = document.getElementById('enquiry-form');
+        var status = document.getElementById('form-status');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+          // If no action URL set yet, stop and show a polite message.
+          if (!form.action || form.action === window.location.href) {
+            e.preventDefault();
+            status.textContent = 'The letterbox is being fitted. Please check back shortly.';
+            status.className = 'form-status';
+            return;
+          }
+
+          // Otherwise, submit via fetch for a nicer UX.
+          e.preventDefault();
+          status.textContent = 'Sending…';
+          status.className = 'form-status';
+
+          var data = new FormData(form);
+          fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          }).then(function(r) {
+            if (r.ok) {
+              form.reset();
+              status.textContent = 'Thank you — your letter has been posted.';
+              status.className = 'form-status is-success';
+            } else {
+              return r.json().then(function(j) {
+                throw new Error((j && j.error) || 'Send failed.');
+              }).catch(function() {
+                throw new Error('Send failed.');
+              });
+            }
+          }).catch(function(err) {
+            status.textContent = 'Something went wrong — please try again.';
+            status.className = 'form-status is-error';
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
