@@ -604,6 +604,45 @@
         .stamp { transition: none; }
       }
 
+      /* ---------- Harbour banner (letterhead) ---------- */
+      .banner {
+        margin: 0 0 clamp(24px, 3vw, 36px);
+        border-bottom: 1px solid var(--ink);
+        overflow: hidden;
+        position: relative;
+      }
+      .banner img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: clamp(120px, 18vw, 220px);
+        object-fit: cover;
+        filter: saturate(0.7) sepia(0.1) contrast(1.02);
+      }
+      .banner::after {
+        /* very subtle ink wash to seat the image in the paper palette */
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(26,22,18,0) 70%, rgba(26,22,18,0.12));
+        pointer-events: none;
+      }
+      .banner figcaption {
+        position: absolute;
+        bottom: 6px;
+        right: clamp(14px, 2.5vw, 28px);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--paper);
+        opacity: 0.8;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      }
+      @media (max-width: 640px) {
+        .banner img { max-height: 110px; }
+      }
+
       /* ---------- Lightbox ---------- */
       .plate img, .hero-photo img { cursor: zoom-in; }
 
@@ -784,6 +823,11 @@
     <span class="reg br" aria-hidden="true"></span>
 
     <div class="sheet">
+
+      <figure class="banner" aria-hidden="true">
+        <img src="assets/banner-harbour.jpg" alt="A panorama of the Grand Harbour — Valletta bastions to the left, Fort St Angelo and the Three Cities to the right." loading="eager" decoding="async" />
+        <figcaption>The Grand Harbour · from the Upper Barrakka</figcaption>
+      </figure>
 
       <header class="masthead">
         <div class="m-left">Est. MMXXVI</div>
