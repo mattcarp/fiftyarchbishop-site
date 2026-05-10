@@ -15,6 +15,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#1a1612" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a1612'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='serif' font-size='18' fill='%23eae2d1'%3E50%3C/text%3E%3C/svg%3E" />
+    <link rel="preload" href="assets/photo-01-hero-kitchen-lounge.jpg" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
@@ -48,6 +49,7 @@
 
       *, *::before, *::after { box-sizing: border-box; }
       html, body { margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
 
       body {
         font-family: "Libre Caslon Text", Georgia, serif;
@@ -547,6 +549,20 @@
       }
       footer.imprint .marks { color: var(--oxblood); letter-spacing: 0.15em; }
 
+      .deploy-stamp {
+        position: fixed;
+        bottom: 4px;
+        right: 6px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.05em;
+        color: var(--ink-soft);
+        opacity: 0.3;
+        z-index: 10;
+        pointer-events: none;
+        user-select: none;
+      }
+
       .reg {
         position: fixed;
         width: 14px; height: 14px;
@@ -723,8 +739,8 @@
       }
       .lightbox-close {
         position: absolute;
-        top: 18px; right: 18px;
-        width: 40px; height: 40px;
+        top: 14px; right: 14px;
+        width: 44px; height: 44px;
         background: transparent;
         border: 1px solid var(--paper-lo);
         color: var(--paper);
@@ -904,7 +920,7 @@
             <dt>Address</dt><dd>No. 50 Archbishop Street</dd>
             <dt>City</dt><dd>Il-Belt Valletta</dd>
             <dt>Island</dt><dd>Malta</dd>
-            <dt>Type</dt><dd>A floor of a Valletta townhouse</dd>
+            <dt>Layout</dt><dd>Main floor: lounge, kitchen, sitting room, bedroom, washer, dryer, room.</dd>
             <dt>Nearest</dt><dd>St John’s Co-Cathedral</dd>
             <dt>Fabric</dt><dd>Limestone, terrazzo, timber</dd>
             <dt>Tenancy</dt><dd><em>Long-term let (months, not nights)</em></dd>
@@ -1183,6 +1199,19 @@
           else if (e.key === 'ArrowRight') openAt(idx + 1);
         });
 
+        // --- Touch swipe for mobile lightbox navigation ---
+        var touchStartX = 0;
+        lb.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        lb.addEventListener('touchend', function(e) {
+          var diff = e.changedTouches[0].screenX - touchStartX;
+          if (Math.abs(diff) > 50) {
+            e.stopPropagation();
+            openAt(idx + (diff < 0 ? 1 : -1));
+          }
+        }, { passive: true });
+
         // --- Contact form (progressive enhancement) ---
         var form = document.getElementById('enquiry-form');
         var status = document.getElementById('form-status');
@@ -1226,5 +1255,6 @@
         });
       })();
     </script>
+    <span class="deploy-stamp" aria-hidden="true">2026-05-10 13:46 UTC</span>
   </body>
 </html>
